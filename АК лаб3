@@ -1,0 +1,64 @@
+Microsoft Windows [Version 10.0.19045.2846]
+(c) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+C:\Users\Admin>mkdir "LABS\PZ-22-2\Simonov R.E.\Command line\Not hidden folder
+
+C:\Users\Admin>mkdir "LABS\PZ-22-2\Simonov R.E.\Command line\Hidden folder
+
+C:\Users\Admin>mkdir "LABS\PZ-22-2\Simonov R.E.\batch"
+
+C:\Users\Admin>xcopy /? > "LABS\PZ-22-2\Simonov R.E.\Command line\Not hidden folder\CopyHelp.txt"
+
+C:\Users\Admin>xcopy "LABS\PZ-22-2\Simonov R.E.\Command line\Not hidden folder\CopyHelp.txt" "LABS\PZ-22-2\Simonov R.E.\Command line\Hidden folder\_CopyHelp.txt"
+Что означает LABS\PZ-22-2\Simonov R.E.\Command line\Hidden folder\_CopyHelp.txt:
+имя файла или каталога
+(F = файл, D = каталог)? f
+LABS\PZ-22-2\Simonov R.E.\Command line\Not hidden folder\CopyHelp.txt
+Скопировано файлов: 1.
+
+C:\Users\Admin>attrib +h "LABS\PZ-22-2\Simonov R.E.\Command line\Hidden folder"
+
+C:\Users\Admin>cd "LABS\PZ-22-2\Simonov R.E.\batch"
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E\batch>echo @echo off > example.bat
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E\batch>notepad example.bat
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E\batch>cd ..
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E>echo @echo off > var24.bat
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E>notepad var24.bat
+
+C:\Users\Admin\LABS\PZ-22-2\Simonov R.E>cd ..
+
+C:\Users\Admin\LABS\PZ-22-2>cd..
+
+C:\Users\Admin\LABS>cd..
+
+C:\Users\Admin>echo @echo off > variamt24.bat
+
+C:\Users\Admin>notepad variamt24.bat
+
+код для  первого бат файла
+@echo off 
+
+mkdir "Not hidden folder"
+mkdir "Hidden folder"
+
+xcopy /? > "Not hidden folder\CopyHelp.txt"
+copy "Not hidden folder\CopyHelp.txt" "Hidden folder\_CopyHelp.txt"
+attrib +h "Hidden folder"
+echo "Done"
+pause
+
+код для второго бат файла
+
+@echo off 
+
+set "source=C:\Users\Admin\LABS"
+set "destination=C:\Users\Admin\new_folder"
+if not exist "%destination%" mkdir "%destination%"
+xcopy /s /i "%source%\*.*" "%destination%\"
+rd /S /Q "%source%"
+pause
