@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <cstdlib>
+using namespace std;
+
+//Вариант 18
+
+int main()
+{
+    setlocale(LC_ALL, "rus");
+    string basePath = "лабораторные\\группа\\фио\\";
+    string commandstr = "командная строка\\";
+    string hiddenFolder = "скрытая папка\\";
+    string notHiddenFolder = "не скрытая папка\\";
+    string batch = "batch\\";
+    string folderPath1 = basePath + commandstr + notHiddenFolder;
+    string folderPath2 = basePath + commandstr + hiddenFolder;
+    string folderPath3 = basePath + batch;
+
+    system(("mkdir \"" + basePath + commandstr + notHiddenFolder + "\"").c_str());
+    system(("mkdir \"" + basePath + commandstr + hiddenFolder + "\"").c_str());
+    system(("mkdir \"" + basePath + batch + "\"").c_str());
+
+    ofstream CopyHelp(folderPath1 + "CopyHelp.txt");
+    if (CopyHelp.is_open())
+    {
+        CopyHelp.close();
+        system(("cmd /c xcopy /? > \"" + folderPath1 + "CopyHelp.txt\"").c_str());
+        cout << "Ключи успешно записаны в текстовый файл." << endl;
+    }
+    else
+    {
+        cout << "Ошибка при открытии файла для записи." << endl;
+        return 1;
+    }
+
+    system(("copy \"" + folderPath1 + "CopyHelp.txt\" \"" + folderPath2 + "_CopyHelp.txt\"").c_str());
+    system(("attrib +h \"" + basePath + commandstr + "скрытая папка" + "\"").c_str());
+
+    ofstream batchFile(basePath + "batch\\script.bat");
+    if (batchFile.is_open())
+    {
+        cout << "Бат файл открыт!\n";
+        batchFile << "@echo off\n\n";
+        batchFile << "mkdir \"" + notHiddenFolder + "\"\n";
+        batchFile << "mkdir \"" + hiddenFolder + "\"\n\n";
+        batchFile << "xcopy /? > \"" + notHiddenFolder + "\\CopyHelp.txt\"\n";
+        batchFile << "copy \"" + notHiddenFolder + "\\CopyHelp.txt\" \"" + hiddenFolder + "\\_CopyHelp.txt\"\n";
+        batchFile << "attrib +h \"скрытая папка\"\n";
+        batchFile << "echo \"Done\"\n";
+        batchFile << "pause\n";
+        batchFile.close();
+    }
+    else
+    {
+        cout << "Не удалось найти 1 бат файл\n";
+        return 1;
+    }
+
+    ofstream batchFile2("SecondBatch.bat");
+    if (batchFile2.is_open())
+    {
+        cout << "Бат файл открыт!\n";
+        batchFile2 << "@echo off\n\n";
+        batchFile2 << "set \"source=C:\\Users\\Admin\\source\\repos\\labs_c++\\Test3\\лабораторные\"\n";
+        batchFile2 << "set \"destination=C:\\Users\\Admin\\source\\repos\\labs_c++\\Test3\\new_folder\"\n";
+        batchFile2 << "if not exist \"%destination%\" mkdir \"%destination%\"\n";
+        batchFile2 << "xcopy /s /i \"%source%\\*.*\" \"%destination%\\\"\n";
+        batchFile2 << "rd /S /Q \"%source%\"\n";
+        batchFile2 << "pause\n";
+        batchFile2.close();
+    }
+    else
+    {
+        cout << "Не удалось найти 2 бат файл\n";
+        return 1;
+    }
+    return 0;
+}
